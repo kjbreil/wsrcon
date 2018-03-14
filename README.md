@@ -1,16 +1,26 @@
 # wsrcon
 Websocket Rcon implemetation for Rust Experimental
 
+### notes
+* Do not use right now, api is likely to change drastically
+* There is a test file, it doesn't work though
 
-WIP do not use in production, api is likely to change drastically
+### todo
 
-Tests do not work right now
-## Example
+* unmarshall chat json
+
+### example
 
 Create docker image from command line
 
 ```bash
 docker run --rm -p 28016:28016/tcp -p 28015:28015/tcp -p 28015:28015/udp --name rust-server kjbreil/rust-server
+```
+
+go get
+
+```bash
+go get github.com/kjbreil/wsrcon
 ```
 
 Sample go code
