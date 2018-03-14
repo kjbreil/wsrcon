@@ -1,11 +1,13 @@
 # wsrcon
+
 Websocket Rcon implemetation for Rust Experimental
 
-### notes
+## notes
+
 * Do not use right now, api is likely to change drastically
 * There is a test file, it doesn't work though
 
-### todo
+## todo
 
 * --unmarshall chat json--
 * return errors
@@ -14,7 +16,7 @@ Websocket Rcon implemetation for Rust Experimental
   * say
 * use identifiers for callbacks on commands to rcon
 
-### example
+## example
 
 Create docker image from command line
 
