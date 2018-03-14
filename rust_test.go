@@ -11,11 +11,11 @@ func TestRCON(t *testing.T) {
 
 	rcon := Connect(&ss)
 
-	rcon.AddChatHandler(testBasicChatHandler)
+	rcon.AddGenericHandler(testBasicGenericHandler)
 
 	rcon.Start()
 }
 
-func testBasicChatHandler(msg string) {
+func testBasicGenericHandler(msg string) {
 	fmt.Printf("BASIC CHAT: %s", msg)
 }
