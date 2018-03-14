@@ -14,11 +14,12 @@ import (
 )
 
 // Message is a received RCON message
+// there is a json tag on Stacktrace to make sure it is made nil with omitempty
 type Message struct {
 	Message    string
 	Identifier int
 	Type       string
-	Stacktrace *string
+	Stacktrace *string `json:"Stacktrace,omitempty"`
 }
 
 // Chat is the message returned by rcon with the chat type
