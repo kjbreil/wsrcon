@@ -1,6 +1,8 @@
 package wsrcon
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/url"
 	"os"
@@ -18,7 +20,10 @@ type received struct {
 	Stacktrace *string
 }
 
-type chat struct {
+// Chat is the message returned by rcon with the chat type
+// UserId (lowercase last d) does not lint in golang so use json tag for just that one
+// same data is present in single line format from Generic Type message
+type Chat struct {
 	Message  string
 	UserID   int `json:"UserId"`
 	Username string
@@ -37,7 +42,7 @@ type Settings struct {
 type RCON struct {
 	conn           *websocket.Conn
 	genericHandler *func(string)
-	chatHandler    *func(string)
+	chatHandler    *func(Chat)
 }
 
 // AddGenericHandler adds a handler for generic messages and logs all such
@@ -50,7 +55,7 @@ func (r *RCON) AddGenericHandler(handlerFunction func(string)) {
 // executes this function with a chat message
 // other details held in json needs a type and to be unmarshaled and added
 // as parameters of the handler function
-func (r *RCON) AddChatHandler(handlerFunction func(string)) {
+func (r *RCON) AddChatHandler(handlerFunction func(Chat)) {
 	r.chatHandler = &handlerFunction
 }
 
@@ -88,9 +93,17 @@ func (r *RCON) Start() {
 					gh(data.Message)
 				}
 			case "Chat":
+				var msg Chat
 				if r.chatHandler != nil {
 					ch := *r.chatHandler
-					ch(data.Message)
+
+					err := json.Unmarshal([]byte(data.Message), &msg)
+					if err != nil {
+						fmt.Printf("%s", err)
+					}
+
+					// fmt.Printf("Message: %s UserId: %d Username: %s Color: %s Time: %d", msg.Message, msg.UserID, msg.Username, msg.Color, msg.Time)
+					ch(msg)
 				}
 			}
 
