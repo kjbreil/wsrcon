@@ -13,7 +13,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type received struct {
+// Message is a received RCON message
+type Message struct {
 	Message    string
 	Identifier int
 	Type       string
@@ -67,7 +68,7 @@ func (r *RCON) Start() {
 
 	go func() {
 		// data is the json structure that comes out of rust rcon
-		var data *received
+		var msg *Message
 		// defer the closing of the goroutine until done
 		defer close(done)
 		for {
@@ -76,31 +77,31 @@ func (r *RCON) Start() {
 			// and annother channel to wait on handler to complete to send next message to handler
 
 			// when there is a websocket message read that data
-			err := r.conn.ReadJSON(&data)
+			err := r.conn.ReadJSON(&msg)
 
 			if err != nil {
 				log.Println("read:", err)
 				return
 			}
 
-			switch data.Type {
+			switch msg.Type {
 			case "Generic":
 				if r.genericHandler != nil {
 					gh := *r.genericHandler
-					gh(data.Message)
+					gh(msg.Message)
 				}
 			case "Chat":
-				var msg Chat
+				var chatMsg Chat
 				if r.chatHandler != nil {
 					ch := *r.chatHandler
 
-					err := json.Unmarshal([]byte(data.Message), &msg)
+					err := json.Unmarshal([]byte(msg.Message), &chatMsg)
 					if err != nil {
 						fmt.Printf("%s", err)
 					}
 
 					// fmt.Printf("Message: %s UserId: %d Username: %s Color: %s Time: %d", msg.Message, msg.UserID, msg.Username, msg.Color, msg.Time)
-					ch(msg)
+					ch(chatMsg)
 				}
 			}
 
