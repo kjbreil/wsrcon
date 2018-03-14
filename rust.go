@@ -18,6 +18,14 @@ type received struct {
 	Stacktrace *string
 }
 
+type chat struct {
+	Message  string
+	UserID   int `json:"UserId"`
+	Username string
+	Color    string
+	Time     int
+}
+
 // Settings is the connection settings for a rust server
 type Settings struct {
 	Host     string
