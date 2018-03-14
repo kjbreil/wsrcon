@@ -51,10 +51,7 @@ func (r *RCON) AddGenericHandler(handlerFunction func(string)) {
 	r.genericHandler = &handlerFunction
 }
 
-// AddChatHandler takes a simple function (only a string as the parameter)
-// executes this function with a chat message
-// other details held in json needs a type and to be unmarshaled and added
-// as parameters of the handler function
+// AddChatHandler is passed the function that is run when a Chat type message is seen in rcon
 func (r *RCON) AddChatHandler(handlerFunction func(Chat)) {
 	r.chatHandler = &handlerFunction
 }
