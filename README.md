@@ -7,7 +7,12 @@ Websocket Rcon implemetation for Rust Experimental
 
 ### todo
 
-* unmarshall chat json
+* --unmarshall chat json--
+* return errors
+* functions for basic rust commands
+  * listplayers
+  * say
+* use identifiers for callbacks on commands to rcon
 
 ### example
 
