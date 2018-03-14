@@ -11,7 +11,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type rcv struct {
+type received struct {
 	Message    string
 	Identifier int
 	Type       string
@@ -57,7 +57,7 @@ func (r *RCON) Start() {
 
 	go func() {
 		// data is the json structure that comes out of rust rcon
-		var data *rcv
+		var data *received
 		// defer the closing of the goroutine until done
 		defer close(done)
 		for {
